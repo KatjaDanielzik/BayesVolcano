@@ -1,0 +1,26 @@
+Package: BayesVolcano
+Title: Creating volcano plots from Bayesian model posteriors
+Version: 0.0.90
+Authors@R: 
+  c(person(given="Katja",family= "Danielzik", email="katja.danielzik@uni-due.de", 
+           role = c("aut", "cre","cph"),
+           comment=c(ORCID="0009-0007-5021-6212")),
+    person(given="Daniel",family="Hoffmann",role="aut",
+           comment=c(ORCID="0000-0003-2973-7869")))
+URL: https://github.com/KatjaDanielzik/BayesVolcano
+BugReports: https://github.com/KatjaDanielzik/BayesVolcano/issues    
+Description: BayesVolcano takes posterior draws from Bayesian models fits and 
+    facilitates the calculation of pi-values for chosen effect sizes and plotting 
+    of Volcano plots (effect size on x-axis, pi-value on y-axis).
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Depends: 
+    R (>= 3.5)
+Suggests:
+    brms, 
+    rstanarm, 
+    cmdstanr, 
+    rstan
+LazyData: true
