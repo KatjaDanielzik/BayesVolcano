@@ -34,6 +34,7 @@
 #' )
 #' plot_volcano(result,
 #'             color="group",
+#'             label="label",
 #'             label.pi.threshold = 0.9,
 #'             label.parameter.threshold = 0.5)
 

@@ -12,3 +12,4 @@ src/*.h
 doc/*
 Meta/*
 /doc/
+inst/doc
