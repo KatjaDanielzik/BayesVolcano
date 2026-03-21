@@ -1,0 +1,20 @@
+---
+title: "BayesVolcano"
+author: Katja Danielzik (katja.danielzik@uni-due.de)
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BayesVolcano}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BayesVolcano)
+```
