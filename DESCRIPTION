@@ -19,6 +19,7 @@ RoxygenNote: 7.3.3
 Depends: 
      R (>= 4.5)
 Imports:
+    purrr,
     dplyr,
     magrittr,
     tidyr

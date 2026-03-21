@@ -6,7 +6,6 @@
 \usage{
 prepare_volcano_df(
   posterior,
-  n_samples = 1000,
   annotation_df,
   threshold = 0,
   CrI.low = 0.025,
@@ -15,8 +14,6 @@ prepare_volcano_df(
 }
 \arguments{
 \item{posterior}{A data frame of posterior draws (one row per draw) \code{\link[=extract_stan_fit]{extract_stan_fit()}}.}
-
-\item{n_samples}{Number of samples from the posterior, default is 1000.}
 
 \item{annotation_df}{A data frame with at least one column:
 \itemize{
@@ -36,16 +33,13 @@ A list with:
 \itemize{
 \item \code{result}: A data frame with columns:
 \itemize{
-\item \code{draw}: posterior draw ID (1 to nrow(posterior))
-\item \code{sample}: sample ID (1 to n_samples)
 \item \code{parameter}: original parameter name
-\item \code{value}: posterior draw value
-\item \code{label}: biological label (e.g., \code{cell.line})
-\item Other columns from \code{annotation_df} (e.g., \code{group}, \code{condition})
 \item \code{pi.value}: calulcated pi.value
 \item \code{parameter.median}: median posterior parameter value
 \item \code{parameter.low}: lower boundary of CrI of parameter value
 \item \code{paramter.high}: upper boundary of CrI of parameter value
+\item \code{label}: biological label (e.g., \code{cell.line})
+\item Other columns from \code{annotation_df} (e.g., \code{group}, \code{condition})
 }
 \item \code{meta}: user settings
 \itemize{
@@ -56,9 +50,14 @@ A list with:
 }
 }
 \description{
-This function has as input posterior draws and annotates them with biological
+This function has as input posterior draws, calculates pi-values and credible intervals (CrI),
+and annotates them with biological
 information (e.g., cell line, time point) based on parameter names and a user-provided
-annotation data frame, calculates pi-values and credible intervals (CrI) and returns a data frame that is ready for plotting.
+annotation data frame, and returns a data frame that is ready for plotting.
+}
+\details{
+Only returns pi-values and summaries for parameters that are in posterior and
+annotation_df.
 }
 \examples{
 # Example: Simulate posterior and annotation
@@ -75,7 +74,6 @@ annotation_df <- data.frame(
 
 result <- prepare_volcano_df(
   posterior = posterior,
-  n_samples = 100,
   annotation_df = annotation_df,
 )
 
