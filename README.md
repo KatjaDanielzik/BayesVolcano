@@ -10,7 +10,8 @@
 Bayesian models are used to estimate effect sizes (e.g., gene expression changes,
 protein abundance differences, drug response effects) while accounting for uncertainty, 
 small sample sizes, and complex experimental designs.
-However, Bayesian outputs are often difficult to interpret at a glance.
+However, Bayesian posteriors of models with many parameters are often difficult
+to interpret at a glance.
 
 One way to quickly identify important biological changes of frequentist analysis 
 are volcano plots (using fold-changes and p-values).
