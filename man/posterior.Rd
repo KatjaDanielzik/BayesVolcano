@@ -19,7 +19,7 @@
 }
 \source{
  \bold{Script used to create simulated data}
- 
+#BiocManager::install("MetaboDynamics") 
 library(MetaboDynamics)
 data("longitudinalMetabolomics_df")
 fit_dynamics_model(data=longitudinalMetabolomics_df)
