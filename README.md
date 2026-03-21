@@ -2,6 +2,8 @@
 # BayesVolcano
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/KatjaDanielzik/BayesVolcano/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KatjaDanielzik/BayesVolcano/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/BayesVolcano)](https://CRAN.R-project.org/package=BayesVolcano)
 <!-- badges: end -->
 
 # Why a Bayesian Volcano Plot Package?
@@ -33,6 +35,12 @@ You can install the development version of BayesVolcano from [GitHub](https://gi
 remotes::install_github("KatjaDanielzik/BayesVolcano")
 ```
 
+and after acceptance to [CRAN](https://cran.r-project.org/) with:
+
+``` r
+install.packages("BayesVolcano")
+```
+
 ## Basic workflow
 
 Input: Posterior of one parameters that should be visualized and an annotation
@@ -41,9 +49,7 @@ data frame mapping parameter names to labels and optional additional columns.
 ``` r
 library(BayesVolcano)
 data("posterior")
-head(posterior)
 data("annotation_df")
-head(annotation_df)
 
 result <- prepare_volcano_df(
    posterior = posterior,

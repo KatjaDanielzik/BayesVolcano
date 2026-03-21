@@ -1,5 +1,5 @@
 Package: BayesVolcano
-Title: Creating volcano plots from Bayesian model posteriors
+Title: Creating Volcano Plots from Bayesian Model Posteriors
 Version: 0.0.90
 Authors@R: 
   c(person(given="Katja",family= "Danielzik", email="katja.danielzik@uni-due.de", 
@@ -35,4 +35,3 @@ Suggests:
     testthat (>= 3.0.0)
 LazyData: true
 Config/testthat/edition: 3
-VignetteBuilder: knitr
