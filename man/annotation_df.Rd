@@ -17,10 +17,12 @@
 #BiocManager::install("MetaboDynamics") 
 library(MetaboDynamics)
 data("longitudinalMetabolomics_df")
-fit_dynamics_model(data=longitudinalMetabolomics_df)
-posterior <- as.data.frame(rstan::extract(fit,pars="euclidean_distance"))
+library(BayesVolcano)
+data("posterior")
 
-annotation_df <- as.data.frame(cbind(parameter=colnames(posterior),label=levels(as.factor(longitudinalMetabolomics_df$metabolite))))
+annotation_df <- as.data.frame(cbind(parameter=colnames(posterior),
+label=levels(as.factor(longitudinalMetabolomics_df$metabolite)),
+group=rep(c("A","B"))))
 }
 
 \keyword{datasets}
