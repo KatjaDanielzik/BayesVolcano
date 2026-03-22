@@ -1,4 +1,4 @@
-#' extract_stan_fit
+#' extract_fit
 #'
 #' Wrapper function to extract parameter draws from two common Stan interfaces.
 #' This function requires the respective stan interface (rstan, brms) 
@@ -21,7 +21,7 @@
 #'  # posterior <- extract_stan_fit(fit, "b_Intercept")
 #'  # End(Not run)
 
-extract_stan_fit <- function(fit, parameter_name) {
+extract_fit <- function(fit, parameter_name) {
   # rstan
   if (inherits(fit, "stanfit")) {
     if (!requireNamespace("rstan", quietly = TRUE)) {

@@ -13,7 +13,7 @@ prepare_volcano_df(
 )
 }
 \arguments{
-\item{posterior}{A data frame of posterior draws (one row per draw) \code{\link[=extract_stan_fit]{extract_stan_fit()}}.}
+\item{posterior}{A data frame of posterior draws (one row per draw) \code{\link[=extract_fit]{extract_fit()}}.}
 
 \item{annotation_df}{A data frame with at least one column:
 \itemize{
@@ -81,5 +81,5 @@ head(result$result)
 
 }
 \seealso{
-\code{\link[=extract_stan_fit]{extract_stan_fit()}}
+\code{\link[=extract_fit]{extract_fit()}}
 }

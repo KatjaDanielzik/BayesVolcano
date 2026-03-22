@@ -95,7 +95,7 @@ plot_volcano <- function(result,
   ## get threshold
   t <- result$meta$threshold
   
-  subtitle <- paste0("vertical black line: threshold for pi=",t)
+  subtitle <- paste0("vertical black line: threshold for pi = ",t)
   
   p <- ggplot(df,(aes(x=parameter.median,y=pi.value))) +
     geom_point()+
@@ -113,7 +113,7 @@ plot_volcano <- function(result,
 "errorbar: CrI ",result$meta$CrI.low,", ",result$meta$CrI.high)
     
     p <- p+
-      geom_errorbar(aes(xmin=parameter.low,xmax=parameter.high))+
+      geom_errorbar(aes(xmin=parameter.low,xmax=parameter.high),col="grey")+
       ggtitle(title, subtitle)
   }
   
@@ -149,7 +149,8 @@ plot_volcano <- function(result,
     }
     
     subtitle <- paste0(subtitle,'\n',
-                       "grey lines: label thresholds")
+                       paste0("grey lines: label thresholds, |parameter| > ",
+                              label.parameter.threshold,", pi > ",label.pi.threshold))
     
     
     p <- p+

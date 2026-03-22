@@ -5,7 +5,7 @@
 #' information (e.g., cell line, time point) based on parameter names and a user-provided
 #' annotation data frame, and returns a data frame that is ready for plotting.
 #'
-#' @param posterior A data frame of posterior draws (one row per draw) [extract_stan_fit()].
+#' @param posterior A data frame of posterior draws (one row per draw) [extract_fit()].
 #' @param annotation_df A data frame with at least one column:
 #'   \itemize{
 #'     \item \code{parameter}: the parameter name (e.g., `doubling.1`, `logOR.treatment`)
@@ -41,7 +41,7 @@
 #'   }
 #'}
 #'
-#' @seealso [extract_stan_fit()]
+#' @seealso [extract_fit()]
 #' 
 #' @import magrittr
 #' @importFrom tidyr pivot_longer

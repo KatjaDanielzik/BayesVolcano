@@ -22,7 +22,8 @@ data("posterior")
 
 annotation_df <- as.data.frame(cbind(parameter=colnames(posterior),
 label=levels(as.factor(longitudinalMetabolomics_df$metabolite)),
-group=rep(c("A","B"))))
+group=rep(c("A","B")),value=rnorm(98,10,3)))
+annotation_df$value <- as.numeric(annotation_df$value)
 }
 
 \keyword{datasets}

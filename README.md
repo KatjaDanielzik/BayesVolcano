@@ -13,7 +13,7 @@ small sample sizes, and complex experimental designs.
 However, Bayesian posteriors of models with many parameters are often difficult
 to interpret at a glance.
 
-One way to quickly identify important biological changes of frequentist analysis 
+One way to quickly identify important biological changes based on frequentist analysis 
 are volcano plots (using fold-changes and p-values).
 
 Bayesian volcano plots bring together the uncertainty aware power of Bayesian 
