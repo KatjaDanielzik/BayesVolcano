@@ -9,14 +9,14 @@ test_that("Function throws error if posterior is not a data frame", {
   )
 })
 
-test_that("Function throws error if threshold is not numeric", {
+test_that("Function throws error if zero.effect is not numeric", {
   expect_error(
     prepare_volcano_df(
       posterior = data.frame(doubling.1 = rnorm(100)),
       annotation_df = data.frame(parameter = "doubling.1", label = "test"),
-      threshold = "0.05"
+      zero.effect = "0.05"
     ),
-    "threshold has to be numeric"
+    "zero.effect has to be numeric"
   )
 })
 
@@ -153,22 +153,22 @@ test_that("Result data frame has correct columns", {
   expect_true(all(expected_cols %in% names(result$result)))
 })
 
-test_that("pi.value is computed correctly for threshold = 0", {
+test_that("pi.value is computed correctly for zero.effect = 0", {
   # Simulate data where 50% of values are above and below 0 -> pi should be 0
   posterior <- data.frame(doubling.1 = c(rep(-1, 500), rep(1, 500)))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
   
-  result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, threshold = 0)
+  result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, zero.effect = 0)
   
   expect_equal(result$result$pi.value, 0, tolerance = 0.01)
 })
 
-test_that("pi.value is computed correctly for threshold = 1", {
+test_that("pi.value is computed correctly for zero.effect = 1", {
   # All values are below 1 → pi = 1
   posterior <- data.frame(doubling.1 = rnorm(1000, mean = 0, sd = 0.1))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
   
-  result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, threshold = 2)
+  result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, zero.effect = 2)
   
   expect_equal(result$result$pi.value, 1.0, tolerance = 0.01)
 })
@@ -225,12 +225,12 @@ test_that("meta list contains correct settings", {
   result <- prepare_volcano_df(
     posterior = posterior,
     annotation_df = annotation_df,
-    threshold = 0.1,
+    zero.effect = 0.1,
     CrI.low = 0.05,
     CrI.high = 0.95
   )
   
-  expect_equal(result$meta$threshold, 0.1)
+  expect_equal(result$meta$zero.effect, 0.1)
   expect_equal(result$meta$CrI.low, 0.05)
   expect_equal(result$meta$CrI.high, 0.95)
 })

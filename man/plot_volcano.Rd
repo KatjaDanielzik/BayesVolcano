@@ -12,7 +12,7 @@ plot_volcano(
   label.parameter.threshold = NULL,
   label.pi.threshold = NULL,
   title = "Bayesian Volcano Plot",
-  xlab = "parameter value"
+  xlab = "median parameter value"
 )
 }
 \arguments{

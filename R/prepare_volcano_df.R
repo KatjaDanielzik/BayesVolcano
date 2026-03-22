@@ -12,13 +12,13 @@
 #'     \item \code{label}: the biological label (e.g., `cell.line`, `time.point`)
 #'     \item Optional: other columns (e.g., `group`, `condition`) for future coloring
 #'   }
-#' @param threshold For which threshold to calculate pi. Default is 0.   
+#' @param zero.effect Central parameter value corresponding to no effect (default t=0).
 #' @param CrI.low lower bound of credible interval
 #' @param CrI.high upper bound of credible interval
 #'
 #' @details
 #' Only returns pi-values and summaries for parameters that are in posterior and
-#' annotation_df. 
+#' annotation_df. For formula see README or Vignette
 #' 
 #'
 #' @return A list with:
@@ -37,7 +37,7 @@
 #' \itemize{
 #'   \item \code{CrI.low}: lower CrI boundary set by user
 #'   \item \code{CrI.high}: upper CrI boundary set by user
-#'   \item \code{threshold}: threshold for pi set by user
+#'   \item \code{zero.effect}: zero.effect for pi set by user
 #'   }
 #'}
 #'
@@ -77,7 +77,7 @@
 prepare_volcano_df <- function(
     posterior,
     annotation_df,
-    threshold = 0,
+    zero.effect = 0,
     CrI.low = 0.025,
     CrI.high = 0.975
 ) {
@@ -85,8 +85,8 @@ prepare_volcano_df <- function(
   if (!is.data.frame(posterior)) {
     stop("Argument 'posterior' must be a data frame.")
   }
-  if(!is.numeric(threshold)){
-    stop("threshold has to be numeric")
+  if(!is.numeric(zero.effect)){
+    stop("zero.effect has to be numeric")
   }
   if (any(!is.numeric(c(CrI.low, CrI.high)))) {
     stop("CrI.low and CrI.high must be numeric.")
@@ -117,7 +117,8 @@ prepare_volcano_df <- function(
     values <- posterior[[param]]
     
     # Compute stats
-    pi_value <- .pi_value(values,threshold)
+    pi_value <- .pi_value(value = values,
+                          zero.effect = zero.effect)
     median_val <- median(values)
     crI_low <- stats::quantile(values, probs = CrI.low, na.rm = TRUE)
     crI_high <- stats::quantile(values, probs = CrI.high, na.rm = TRUE)
@@ -147,5 +148,5 @@ prepare_volcano_df <- function(
   
   return(list(result=result,meta=list(CrI.low=as.numeric(CrI.low),
                                       CrI.high=as.numeric(CrI.high),
-                                      threshold=as.numeric(threshold))))
+                                      zero.effect=as.numeric(zero.effect))))
 }

@@ -4,12 +4,12 @@
 \alias{.pi_value}
 \title{pi_value}
 \usage{
-.pi_value(value, threshold)
+.pi_value(value, zero.effect)
 }
 \arguments{
 \item{value}{numerical vector of posterior draws}
 
-\item{threshold}{numerical value indicating for which treshhold to calculate pi}
+\item{zero.effect}{numerical value indicating for which treshhold to calculate pi}
 }
 \value{
 pi-value

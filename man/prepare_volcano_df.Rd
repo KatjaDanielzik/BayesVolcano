@@ -7,7 +7,7 @@
 prepare_volcano_df(
   posterior,
   annotation_df,
-  threshold = 0,
+  zero.effect = 0,
   CrI.low = 0.025,
   CrI.high = 0.975
 )
@@ -22,7 +22,7 @@ prepare_volcano_df(
 \item Optional: other columns (e.g., \code{group}, \code{condition}) for future coloring
 }}
 
-\item{threshold}{For which threshold to calculate pi. Default is 0.}
+\item{zero.effect}{Central parameter value corresponding to no effect (default t=0).}
 
 \item{CrI.low}{lower bound of credible interval}
 
@@ -45,7 +45,7 @@ A list with:
 \itemize{
 \item \code{CrI.low}: lower CrI boundary set by user
 \item \code{CrI.high}: upper CrI boundary set by user
-\item \code{threshold}: threshold for pi set by user
+\item \code{zero.effect}: zero.effect for pi set by user
 }
 }
 }
@@ -57,7 +57,7 @@ annotation data frame, and returns a data frame that is ready for plotting.
 }
 \details{
 Only returns pi-values and summaries for parameters that are in posterior and
-annotation_df.
+annotation_df. For formula see README or Vignette
 }
 \examples{
 # Example: Simulate posterior and annotation

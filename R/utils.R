@@ -3,12 +3,12 @@
 #' Calculates pi-value as integral under
 #'
 #' @param value numerical vector of posterior draws
-#' @param threshold numerical value indicating for which treshhold to calculate pi
+#' @param zero.effect numerical value indicating for which treshhold to calculate pi
 #'
 #' @returns pi-value
 #' @keywords internal
-.pi_value <- function(value, threshold) {
+.pi_value <- function(value, zero.effect) {
   l <- length(value)
-  pi <- 2*max(sum(value<=threshold)/l, sum(value>=threshold)/l)-1
+  pi <- 2*max(sum(value<=zero.effect)/l, sum(value>=zero.effect)/l)-1
   return(pi)
 }

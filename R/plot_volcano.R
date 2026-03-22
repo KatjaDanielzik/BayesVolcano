@@ -45,7 +45,7 @@ plot_volcano <- function(result,
                          label.parameter.threshold = NULL,
                          label.pi.threshold = NULL,
                          title = "Bayesian Volcano Plot",
-                         xlab = "parameter value"){
+                         xlab = "median parameter value"){
 
   # Input validation
   if (!is.list(result) || !("result" %in% names(result)) || !("meta" %in% names(result))) {
@@ -93,14 +93,14 @@ plot_volcano <- function(result,
   
   # create base plot ####
   ## get threshold
-  t <- result$meta$threshold
+  t <- result$meta$zero.effect
   
-  subtitle <- paste0("vertical black line: threshold for pi = ",t)
+  subtitle <- paste0("vertical black line: zero effect of parameter = ",t)
   
   p <- ggplot(df,(aes(x=parameter.median,y=pi.value))) +
     geom_point()+
     theme_bw()+
-    # mark user set threshold
+    # mark user set zero.effect
     geom_vline(aes(xintercept=t))+
     xlab(xlab)+
     ylab("pi")+
