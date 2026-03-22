@@ -2,8 +2,6 @@
 # BayesVolcano
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/KatjaDanielzik/BayesVolcano/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KatjaDanielzik/BayesVolcano/actions/workflows/R-CMD-check.yaml)
-[![CRAN status](https://www.r-pkg.org/badges/version/BayesVolcano)](https://CRAN.R-project.org/package=BayesVolcano)
 <!-- badges: end -->
 
 # Why a Bayesian Volcano Plot Package?
