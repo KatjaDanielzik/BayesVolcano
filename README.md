@@ -27,6 +27,11 @@ models and the familiar visualization of volcano plots by:
 
    3) Optional displaying credible intervals (CrIs) to visualize uncertainty.
    4) Preserving the familiar, intuitive volcano structure.
+   
+We are not the first to think about the concept of Bayesian volcano plots [Sousa et al. 2020](https://doi.org/10.1016/j.aca.2019.11.006) introduced them as a single
+use case (their b-values correspond to our pi-values)
+but to our knowledge we are the first to provide an R-package
+for easy calculation of pi-values and visualization. 
 
 ## Installation
 
@@ -54,7 +59,7 @@ data("annotation_df")
 
 result <- prepare_volcano_df(
    posterior = posterior,
-   annotation_df = annotation_df,
+   annotation_df = annotation_df
  )
 plot_volcano(result,
              color="group",
@@ -64,3 +69,12 @@ plot_volcano(result,
 ```
 
 ![](man/figures/README-example_volcano.png)
+
+# References
+Julie de Sousa, Ondřej Vencálek, Karel Hron, Jan Václavík, David Friedecký, Tomáš Adam,
+Bayesian multiple hypotheses testing in compositional analysis of untargeted metabolomic data,
+Analytica Chimica Acta, Volume 1097, 2020, Pages 49-61, ISSN 0003-2670,
+https://doi.org/10.1016/j.aca.2019.11.006.
+(https://www.sciencedirect.com/science/article/pii/S0003267019313492)
+
+Corresponding GitHub Repository: https://github.com/sousaju/BayesVolcano
