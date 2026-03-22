@@ -52,7 +52,7 @@ are volcano plots (using fold-changes and p-values).
 Bayesian volcano plots bring together the explicit treatment of uncertainty in
 Bayesian models and the familiar visualization of volcano plots.
 
-We are not the first to think about the concept of Bayesian volcano plots [Sousa et al. 2020](https://doi.org/10.1016/j.aca.2019.11.006) introduced them as a single
+We are not the first to think about the concept of Bayesian volcano plots: [Sousa et al. 2020](https://doi.org/10.1016/j.aca.2019.11.006) introduced them as a single
 use case (pi-value= 1 - b-value)
 but to our knowledge we are the first to provide an R-package
 for easy calculation of pi-values and visualization. 
