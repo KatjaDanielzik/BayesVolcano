@@ -112,9 +112,9 @@ test_that("Function handles missing parameter in posterior correctly", {
     parameter = c("doubling.1", "doubling.2"),
     label = c("A", "B")
   )
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df)
-  
+
   # Should not throw error, but should return only existing parameter
   expect_equal(nrow(result$result), 1)
   expect_equal(result$result$parameter, "doubling.1")
@@ -126,15 +126,15 @@ test_that("Function returns a list with 'result' and 'meta' components", {
     doubling.1 = rnorm(1000),
     doubling.2 = rnorm(1000)
   )
-  
+
   annotation_df <- data.frame(
     parameter = c("doubling.1", "doubling.2"),
     label = c("cell.line.A", "cell.line.B"),
     group = c("group1", "group1")
   )
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df)
-  
+
   expect_type(result, "list")
   expect_true("result" %in% names(result))
   expect_true("meta" %in% names(result))
@@ -143,13 +143,13 @@ test_that("Function returns a list with 'result' and 'meta' components", {
 test_that("Result data frame has correct columns", {
   posterior <- data.frame(doubling.1 = rnorm(1000))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df)
-  
+
   expected_cols <- c(
     "parameter", "pi.value", "parameter.median", "parameter.low", "parameter.high", "label"
   )
-  
+
   expect_true(all(expected_cols %in% names(result$result)))
 })
 
@@ -157,9 +157,9 @@ test_that("pi.value is computed correctly for zero.effect = 0", {
   # Simulate data where 50% of values are above and below 0 -> pi should be 0
   posterior <- data.frame(doubling.1 = c(rep(-1, 500), rep(1, 500)))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, zero.effect = 0)
-  
+
   expect_equal(result$result$pi.value, 0, tolerance = 0.01)
 })
 
@@ -167,36 +167,36 @@ test_that("pi.value is computed correctly for zero.effect = 1", {
   # All values are below 1 → pi = 1
   posterior <- data.frame(doubling.1 = rnorm(1000, mean = 0, sd = 0.1))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df, zero.effect = 2)
-  
+
   expect_equal(result$result$pi.value, 1.0, tolerance = 0.01)
 })
 
 test_that("median is computed correctly", {
   posterior <- data.frame(doubling.1 = c(1, 2, 3, 4, 5))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df)
-  
+
   expect_equal(result$result$parameter.median, 3)
 })
 
 test_that("CrI bounds are computed correctly", {
   posterior <- data.frame(doubling.1 = rnorm(1000, mean = 0, sd = 1))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(
     posterior = posterior,
     annotation_df = annotation_df,
     CrI.low = 0.025,
     CrI.high = 0.975
   )
-  
+
   # Check that CrI bounds are close to theoretical 95% CI
   expected_low <- as.numeric(quantile(posterior$doubling.1, 0.025))
   expected_high <- as.numeric(quantile(posterior$doubling.1, 0.975))
-  
+
   expect_equal(result$result$parameter.low, expected_low, tolerance = 0.1)
   expect_equal(result$result$parameter.high, expected_high, tolerance = 0.1)
 })
@@ -209,19 +209,19 @@ test_that("Left join with annotation_df preserves additional columns", {
     group = "treatment",
     condition = "high"
   )
-  
+
   result <- prepare_volcano_df(posterior = posterior, annotation_df = annotation_df)
-  
+
   expect_equal(names(result$result), c(
     "parameter", "pi.value", "parameter.median", "parameter.low", "parameter.high",
-    "CrI.width","label", "group", "condition"
+    "CrI.width", "label", "group", "condition"
   ))
 })
 
 test_that("meta list contains correct settings", {
   posterior <- data.frame(doubling.1 = rnorm(1000))
   annotation_df <- data.frame(parameter = "doubling.1", label = "test")
-  
+
   result <- prepare_volcano_df(
     posterior = posterior,
     annotation_df = annotation_df,
@@ -229,7 +229,7 @@ test_that("meta list contains correct settings", {
     CrI.low = 0.05,
     CrI.high = 0.95
   )
-  
+
   expect_equal(result$meta$zero.effect, 0.1)
   expect_equal(result$meta$CrI.low, 0.05)
   expect_equal(result$meta$CrI.high, 0.95)

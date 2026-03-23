@@ -28,7 +28,7 @@ Bayesian models and the familiar visualization of volcano plots by:
    2) Preserving the familiar, intuitive volcano structure.
 
       The figure below shows the distribution of the posterior samples on the right
-      and their translation into a Bayesian volcano plot on the righth.
+      and their translation into a Bayesian volcano plot on the right.
 
       ![](man/figures/README-explain_volcano.png)
 

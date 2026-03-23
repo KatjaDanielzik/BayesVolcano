@@ -1,20 +1,20 @@
-  # Simulate minimal data to test the function
-  df <- data.frame(
-    parameter.median = c(-1.5, -0.3, 0.2, 1.2, 0.0),
-    pi.value = c(0.95, 0.1, 0.8, 0.99, 0.5),
-    parameter.low = c(-2.0, -0.5, -0.1, 0.8, -0.2),
-    parameter.high = c(-1.0, -0.1, 0.5, 1.6, 0.2),
-    label = c("A", "B", "C", "D", "E"),
-    group = c("Control", "Treatment", "Control", "Treatment", "Control")
-  )
-  
-  meta <- list(
-    threshold = 0.5,
-    CrI.low = 0.025,
-    CrI.high = 0.975
-  )
-  
-  test_data <- list(result = df, meta = meta)
+# Simulate minimal data to test the function
+df <- data.frame(
+  parameter.median = c(-1.5, -0.3, 0.2, 1.2, 0.0),
+  pi.value = c(0.95, 0.1, 0.8, 0.99, 0.5),
+  parameter.low = c(-2.0, -0.5, -0.1, 0.8, -0.2),
+  parameter.high = c(-1.0, -0.1, 0.5, 1.6, 0.2),
+  label = c("A", "B", "C", "D", "E"),
+  group = c("Control", "Treatment", "Control", "Treatment", "Control")
+)
+
+meta <- list(
+  threshold = 0.5,
+  CrI.low = 0.025,
+  CrI.high = 0.975
+)
+
+test_data <- list(result = df, meta = meta)
 
 # Test 1: Input validation - result must be a list with 'result' and 'meta'
 test_that("plot_volcano fails with invalid result", {
@@ -62,7 +62,7 @@ test_that("plot_volcano returns a ggplot object", {
     title = "Test Volcano",
     xlab = "Parameter Estimate"
   )
-  
+
   expect_s3_class(p, "ggplot")
   expect_true(inherits(p, "ggplot"))
 })
@@ -70,7 +70,7 @@ test_that("plot_volcano returns a ggplot object", {
 # Test 8: CrI = TRUE updates subtitle
 test_that("CrI = TRUE adds errorbar and updates subtitle", {
   p <- plot_volcano(test_data, CrI = TRUE)
-  
+
   # Check subtitle contains CrI info
   subtitle <- p$labels$subtitle
   expect_true(grepl("errorbar: CrI 0.025, 0.975", subtitle))
@@ -79,7 +79,7 @@ test_that("CrI = TRUE adds errorbar and updates subtitle", {
 # Test 8: label is not NULL updates subtitle
 test_that("label is not NULL  updates subtitle", {
   p <- plot_volcano(test_data, label = "label")
-  
+
   # Check subtitle contains CrI info
   subtitle <- p$labels$subtitle
   expect_true(grepl("grey lines: label thresholds", subtitle))
