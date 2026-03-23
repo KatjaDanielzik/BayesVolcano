@@ -214,7 +214,7 @@ test_that("Left join with annotation_df preserves additional columns", {
   
   expect_equal(names(result$result), c(
     "parameter", "pi.value", "parameter.median", "parameter.low", "parameter.high",
-    "label", "group", "condition"
+    "CrI.width","label", "group", "condition"
   ))
 })
 

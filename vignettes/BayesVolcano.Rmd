@@ -141,16 +141,26 @@ plot_volcano(results,
 This adds the credible intervals as grey lines and adds a description of the errorbar
 to the subtitle.
 
+Another possibility is to display the CrI width (distance between lower and 
+upper boundary) as point size. For this set CrI.width = TRUE. Below I display
+the CrI and the summary as point size in one plot.
+
+```{r,fig.width=7,fig.height=6}
+plot_volcano(results,
+             CrI = TRUE,
+             CrI.width = TRUE)
+```
+
+Wide CrI translate into small points, narrow CrI into big points.
+
 To color code the points the user can choose a character of numerical column
 from the result data frame (annotation_df).
 
 ```{r,fig.width=7,fig.height=6}
 plot_volcano(results,
-             CrI = FALSE,
              color = "group")
 
 plot_volcano(results,
-             CrI = FALSE,
              color = "value")
 ```
 
@@ -158,7 +168,8 @@ To add labels the [ggrepel](https://cran.r-project.org/web/packages/ggrepel/vign
 package is employed:
 
 ```{r,fig.width=7,fig.height=6}
-plot_volcano(results, label = "label")
+plot_volcano(results, 
+             label = "label")
 ```
 
 To only display labels above thresholds for the parameter value and pi set:
@@ -172,10 +183,11 @@ plot_volcano(results,
 
 Grey lines are added to visualize the threshold and a subtitle is added.
 
-Of course color and labels can be combined:
+Of course color, labels and CrI width can be combined:
 
 ```{r,fig.width=7,fig.height=6}
 plot_volcano(results, 
+             CrI.width = TRUE,
              color = "group",
              label = "label",
              label.parameter.threshold = 1.5,

@@ -2,6 +2,7 @@
 #'
 #' @param result from [prepare_volcano_df()] (a list with `result` and `meta`).
 #' @param CrI Logical. Whether to display the CrI Interval of the parameter
+#' @param CrI.width Logical. Whether to display the CrI width as point size.
 #' @param color Column in `result$result. Can be numerical or character.
 #' @param label Character column name in `result$result` to use for labeling 
 #' points (e.g., "label", "parameter").
@@ -40,6 +41,7 @@
 
 plot_volcano <- function(result,
                          CrI = FALSE,
+                         CrI.width = FALSE,
                          color = NULL,
                          label = NULL,
                          label.parameter.threshold = NULL,
@@ -90,6 +92,7 @@ plot_volcano <- function(result,
   pi.value <- NULL
   parameter.low <- NULL
   parameter.high <- NULL
+  distance.CrI <- NULL
   
   # create base plot ####
   ## get threshold
@@ -106,6 +109,19 @@ plot_volcano <- function(result,
     ylab("pi")+
     ggtitle(title, subtitle)
   
+  if(CrI.width==TRUE){
+    subtitle <- paste0(subtitle,'\n',
+"point size = |CrI|")
+    p <- ggplot(df,(aes(x=parameter.median,y=pi.value))) +
+      geom_point(aes(size=-CrI.width))+
+      theme_bw()+
+      # mark user set zero.effect
+      geom_vline(aes(xintercept=t))+
+      xlab(xlab)+
+      ylab("pi")+
+      ggtitle(title, subtitle)
+  }
+  
   # add errorbar ####
   if(CrI==TRUE){
     
@@ -119,22 +135,40 @@ plot_volcano <- function(result,
   
   # add color ####
   if(!is.null(color)){
-    if(is.numeric(df[[color]])){
-    temp <- as.symbol(color)
-    temp <- enquo(temp)
-    p <- p+
-      geom_point(aes(col = !!temp))+
-      scale_color_viridis_c()
-    }
-    if(is.character(df[[color]])){
+    if(CrI.width==FALSE){
+      if(is.numeric(df[[color]])){
       temp <- as.symbol(color)
       temp <- enquo(temp)
       p <- p+
         geom_point(aes(col = !!temp))+
-        scale_color_viridis_d()
+        scale_color_viridis_c()
+      }
+      if(is.character(df[[color]])){
+        temp <- as.symbol(color)
+        temp <- enquo(temp)
+        p <- p+
+          geom_point(aes(col = !!temp))+
+          scale_color_viridis_d()
+      }
+    }
+    if(CrI.width==TRUE){
+      if(is.numeric(df[[color]])){
+        temp <- as.symbol(color)
+        temp <- enquo(temp)
+        p <- p+
+          geom_point(aes(col = !!temp,size=-CrI.width))+
+          scale_color_viridis_c()
+      }
+      if(is.character(df[[color]])){
+        temp <- as.symbol(color)
+        temp <- enquo(temp)
+        p <- p+
+          geom_point(aes(col = !!temp,size=-CrI.width))+
+          scale_color_viridis_d()
+      }
+      
     }
   }
-  
   # add label ####
   if(!is.null(label)){
     # make useable for ggplot

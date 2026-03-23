@@ -7,6 +7,7 @@
 plot_volcano(
   result,
   CrI = FALSE,
+  CrI.width = FALSE,
   color = NULL,
   label = NULL,
   label.parameter.threshold = NULL,
@@ -19,6 +20,8 @@ plot_volcano(
 \item{result}{from \code{\link[=prepare_volcano_df]{prepare_volcano_df()}} (a list with \code{result} and \code{meta}).}
 
 \item{CrI}{Logical. Whether to display the CrI Interval of the parameter}
+
+\item{CrI.width}{Logical. Whether to display the CrI width as point size.}
 
 \item{color}{Column in `result$result. Can be numerical or character.}
 

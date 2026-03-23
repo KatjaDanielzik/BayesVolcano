@@ -38,6 +38,7 @@ A list with:
 \item \code{parameter.median}: median posterior parameter value
 \item \code{parameter.low}: lower boundary of CrI of parameter value
 \item \code{paramter.high}: upper boundary of CrI of parameter value
+\item \code{CrI.width}: the absolute distance parameter.low and parameter.high
 \item \code{label}: biological label (e.g., \code{cell.line})
 \item Other columns from \code{annotation_df} (e.g., \code{group}, \code{condition})
 }
@@ -53,11 +54,11 @@ A list with:
 This function has as input posterior draws, calculates pi-values and credible intervals (CrI),
 and annotates them with biological
 information (e.g., cell line, time point) based on parameter names and a user-provided
-annotation data frame, and returns a data frame that is ready for plotting.
+annotation data frame. Returns a data frame that is ready for plotting.
 }
 \details{
-Only returns pi-values and summaries for parameters that are in posterior and
-annotation_df. For formula see README or Vignette
+Only returns pi-values and credible intervals for parameters that are \strong{in posterior and
+annotation_df}. For formula see README or Vignette
 }
 \examples{
 # Example: Simulate posterior and annotation

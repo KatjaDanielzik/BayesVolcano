@@ -12,3 +12,14 @@
   pi <- 2*max(sum(value<=zero.effect)/l, sum(value>=zero.effect)/l)-1
   return(pi)
 }
+
+#' CrI width
+#'
+#' @param CrI.low lower bound of credible interval
+#' @param CrI.high upper bound of credible interval
+#'
+#' @returns absolute distance between CrI and zero effect
+#' @keywords internal
+.CrI.width <- function(CrI.low, CrI.high){
+  d.CrI <- abs(CrI.high-CrI.low)
+}

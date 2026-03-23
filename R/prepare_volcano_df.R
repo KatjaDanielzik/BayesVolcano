@@ -30,6 +30,7 @@
 #'     \item \code{parameter.median}: median posterior parameter value
 #'     \item \code{parameter.low}: lower boundary of CrI of parameter value
 #'     \item \code{paramter.high}: upper boundary of CrI of parameter value
+#'     \item \code{CrI.width}: the absolute distance parameter.low and parameter.high
 #'     \item \code{label}: biological label (e.g., `cell.line`)
 #'     \item Other columns from `annotation_df` (e.g., `group`, `condition`)
 #'   }
@@ -122,14 +123,17 @@ prepare_volcano_df <- function(
     median_val <- median(values)
     crI_low <- stats::quantile(values, probs = CrI.low, na.rm = TRUE)
     crI_high <- stats::quantile(values, probs = CrI.high, na.rm = TRUE)
+    CrI_width <- .CrI.width(CrI.low = crI_low, CrI.high = crI_high)
     
-    # Return as list
+    # Return as data frame
+    
     return(as.data.frame(cbind(
       parameter = param,
       pi.value = pi_value,
       parameter.median = median_val,
       parameter.low = crI_low,
-      parameter.high = crI_high
+      parameter.high = crI_high,
+      CrI.width = CrI_width
     )))
   })
   
@@ -145,6 +149,7 @@ prepare_volcano_df <- function(
   result$parameter.median <- as.numeric(result$parameter.median)
   result$parameter.low <- as.numeric(result$parameter.low)
   result$parameter.high <- as.numeric(result$parameter.high)
+  result$CrI.width <- as.numeric(result$CrI.width)
   
   return(list(result=result,meta=list(CrI.low=as.numeric(CrI.low),
                                       CrI.high=as.numeric(CrI.high),
