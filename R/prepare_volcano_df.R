@@ -3,7 +3,7 @@
 #' This function has as input posterior draws, calculates pi-values and credible intervals (CrI),
 #' and annotates them with biological
 #' information (e.g., cell line, time point) based on parameter names and a user-provided
-#' annotation data frame, and returns a data frame that is ready for plotting.
+#' annotation data frame. Returns a data frame that is ready for plotting.
 #'
 #' @param posterior A data frame of posterior draws (one row per draw) [extract_fit()].
 #' @param annotation_df A data frame with at least one column:
@@ -17,8 +17,8 @@
 #' @param CrI.high upper bound of credible interval
 #'
 #' @details
-#' Only returns pi-values and summaries for parameters that are in posterior and
-#' annotation_df. For formula see README or Vignette
+#' Only returns pi-values and credible intervals for parameters that are **in posterior and
+#' annotation_df**. For formula see README or Vignette
 #' 
 #'
 #' @return A list with:

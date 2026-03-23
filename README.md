@@ -43,7 +43,7 @@ for easy calculation of pi-values and visualization.
 
 ## Installation
 
-You can install the development version of BayesVolcano from [GitHub](https://github.com/) with:
+You can install the development version of BayesVolcano from GitHub with:
 
 ``` r
 remotes::install_github("KatjaDanielzik/BayesVolcano")
@@ -57,7 +57,7 @@ install.packages("BayesVolcano")
 
 ## Basic workflow
 
-Input: Posterior of one parameters that should be visualized and an annotation
+Input: Posterior of parameters that should be visualized and an annotation
 data frame mapping parameter names to labels and optional additional columns.
 
 ``` r
@@ -67,7 +67,10 @@ data("annotation_df")
 
 result <- prepare_volcano_df(
    posterior = posterior,
-   annotation_df = annotation_df
+   annotation_df = annotation_df,
+   zero.effect = 0, # central parameter value corresponding to no effect
+   CrI.low = 0.025, # lower bound for credible intervals
+   CrI.high = 0.975 # upper bound for credible intervals
  )
 plot_volcano(result,
              CrI = FALSE, # optional display of credible intervals
@@ -76,6 +79,8 @@ plot_volcano(result,
              label.pi.threshold = 0.9, # optional thresholds for labels
              label.parameter.threshold = 0.5)
 ```
+
+plot_volcano returns a ggplot object that can further be customized by the user.
 
 ![](man/figures/README-example_volcano.png)
 
