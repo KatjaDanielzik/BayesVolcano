@@ -52,14 +52,15 @@ data("posterior")
 head(posterior)
 data("annotation_df")
 head(annotation_df)
- 
+
 result <- prepare_volcano_df(
   posterior = posterior,
   annotation_df = annotation_df,
 )
 plot_volcano(result,
-            color="group",
-            label="label",
-            label.pi.threshold = 0.9,
-            label.parameter.threshold = 0.5)
+  color = "group",
+  label = "label",
+  label.pi.threshold = 0.9,
+  label.parameter.threshold = 0.5
+)
 }

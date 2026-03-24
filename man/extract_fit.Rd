@@ -21,10 +21,10 @@ This function requires the respective stan interface (rstan, brms)
 package to be installed.
 }
 \examples{
- #Not run:
-#fit <- brms::brm(count ~ zAge + zBase * Trt + (1|patient),
+# Not run:
+# fit <- brms::brm(count ~ zAge + zBase * Trt + (1|patient),
 #             data = brms::epilepsy[1:30,], family = poisson())
 
- # posterior <- extract_stan_fit(fit, "b_Intercept")
- # End(Not run)
+# posterior <- extract_stan_fit(fit, "b_Intercept")
+# End(Not run)
 }

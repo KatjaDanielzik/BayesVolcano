@@ -34,7 +34,7 @@ A list with:
 \item \code{result}: A data frame with columns:
 \itemize{
 \item \code{parameter}: original parameter name
-\item \code{pi.value}: calulcated pi.value
+\item \code{pi.value}: calculated pi.value
 \item \code{parameter.median}: median posterior parameter value
 \item \code{parameter.low}: lower boundary of CrI of parameter value
 \item \code{paramter.high}: upper boundary of CrI of parameter value
