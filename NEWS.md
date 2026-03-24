@@ -1,3 +1,3 @@
-# BayesVolcano 0.0.90
+# BayesVolcano 1.0.0
 
 * Initial CRAN submission.
