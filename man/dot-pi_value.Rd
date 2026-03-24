@@ -9,7 +9,7 @@
 \arguments{
 \item{value}{numerical vector of posterior draws}
 
-\item{zero.effect}{numerical value indicating for which treshhold to calculate pi}
+\item{zero.effect}{numerical value indicating for which the central parameter value corresponding to no effect}
 }
 \value{
 pi-value
