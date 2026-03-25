@@ -4,42 +4,16 @@
 \alias{plot_volcano}
 \title{Plot Bayesian Volcano plot}
 \usage{
-plot_volcano(
-  result,
-  CrI = FALSE,
-  CrI.width = FALSE,
-  color = NULL,
-  label = NULL,
-  label.parameter.threshold = NULL,
-  label.pi.threshold = NULL,
-  title = "Bayesian Volcano Plot",
-  xlab = "median parameter value"
-)
+plot_volcano(result, CrI = FALSE, CrI_width = FALSE, color = NULL)
 }
 \arguments{
-\item{result}{from \code{\link[=prepare_volcano_df]{prepare_volcano_df()}} (a list with \code{result} and \code{meta}).}
+\item{result}{from \code{\link[=prepare_volcano_input]{prepare_volcano_input()}} (a data frame).}
 
 \item{CrI}{Logical. Whether to display the CrI Interval of the parameter}
 
-\item{CrI.width}{Logical. Whether to display the CrI width as point size.}
+\item{CrI_width}{Logical. Whether to display the CrI width as point size.}
 
 \item{color}{Column in `result$result. Can be numerical or character.}
-
-\item{label}{Character column name in \code{result$result} to use for labeling
-points (e.g., "label", "parameter").
-If \code{NULL}, no labels are shown.}
-
-\item{label.parameter.threshold}{Numeric vector of length 1, absolute lower bound for label
-If \code{NULL} or missing, all points are considered for labeling.}
-
-\item{label.pi.threshold}{numeric vector of length 1, absolute lower bound for label
-If \code{NULL} or missing, all points are considered for labeling.
-for y-axis to trigger labeling.
-If \code{NULL} or missing, all points are considered for labeling.}
-
-\item{title}{Character. Title of plot}
-
-\item{xlab}{Character. x-axis label of plot}
 }
 \value{
 a ggplot2 object
@@ -53,14 +27,13 @@ head(posterior)
 data("annotation_df")
 head(annotation_df)
 
-result <- prepare_volcano_df(
+result <- prepare_volcano_input(
   posterior = posterior,
-  annotation_df = annotation_df,
+  annotation = annotation_df,
 )
 plot_volcano(result,
   color = "group",
-  label = "label",
-  label.pi.threshold = 0.9,
-  label.parameter.threshold = 0.5
+  CrI = TRUE,
+  CrI_width = TRUE
 )
 }

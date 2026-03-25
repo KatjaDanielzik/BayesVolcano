@@ -27,7 +27,7 @@ Depends:
      R (>= 4.5)
 Imports:
     ggplot2,
-    ggrepel,
+    HDInterval,
     purrr,
     dplyr,
     magrittr,

@@ -68,16 +68,13 @@ data("annotation_df")
 result <- prepare_volcano_df(
    posterior = posterior,
    annotation_df = annotation_df,
-   zero.effect = 0, # central parameter value corresponding to no effect
+   null.effect = 0, # central parameter value corresponding to no effect
    CrI.low = 0.025, # lower bound for credible intervals
    CrI.high = 0.975 # upper bound for credible intervals
  )
 plot_volcano(result,
              CrI = FALSE, # optional display of credible intervals
-             color="group", # optional color coding
-             label="label", # optional text labels
-             label.pi.threshold = 0.9, # optional thresholds for labels
-             label.parameter.threshold = 0.5)
+             color="group", # optional color coding)
 ```
 
 plot_volcano returns a ggplot object that can further be customized by the user.
