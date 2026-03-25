@@ -12,7 +12,7 @@
 \item{CrI.high}{upper bound of credible interval}
 }
 \value{
-absolute distance between CrI and zero effect
+absolute distance lower and upper bound of CrI
 }
 \description{
 CrI width

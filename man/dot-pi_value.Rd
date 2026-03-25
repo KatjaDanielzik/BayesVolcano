@@ -4,12 +4,12 @@
 \alias{.pi_value}
 \title{pi_value}
 \usage{
-.pi_value(value, zero.effect)
+.pi_value(value, null.effect)
 }
 \arguments{
 \item{value}{numerical vector of posterior draws}
 
-\item{zero.effect}{numerical value indicating for which the central parameter value corresponding to no effect}
+\item{null.effect}{numerical value indicating for which the central parameter value corresponding to no effect}
 }
 \value{
 pi-value

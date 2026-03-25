@@ -1,4 +1,4 @@
-#' Prepare volcano data frame
+#' Prepare volcano input
 #'
 #' This function has as input posterior draws, calculates pi-values and credible intervals (CrI),
 #' and annotates them with biological
@@ -6,19 +6,18 @@
 #' annotation data frame. Returns a data frame that is ready for plotting.
 #'
 #' @param posterior A data frame of posterior draws (one row per draw) [extract_fit()].
-#' @param annotation_df A data frame with at least one column:
+#' @param annotation A data frame with at least one column:
 #'   \itemize{
 #'     \item \code{parameter}: the parameter name (e.g., `doubling.1`, `logOR.treatment`)
 #'     \item \code{label}: the biological label (e.g., `cell.line`, `time.point`)
 #'     \item Optional: other columns (e.g., `group`, `condition`) for future coloring
 #'   }
-#' @param zero.effect Central parameter value corresponding to no effect (default t=0).
-#' @param CrI.low lower bound of credible interval
-#' @param CrI.high upper bound of credible interval
+#' @param null.effect Central parameter value corresponding to no effect (default t=0).
+#' @param CrI_level  a scalar between 0 and 1 specifying the mass within the credible interval (default=0.95, i.e. 95% credible interval (CrI)).
 #'
 #' @details
 #' Only returns pi-values and credible intervals for parameters that are **in posterior and
-#' annotation_df**. For formula see README or Vignette
+#' annotation**. For formula see README or Vignette
 #'
 #'
 #' @return A list with:
@@ -27,18 +26,14 @@
 #'     \itemize{
 #'     \item \code{parameter}: original parameter name
 #'     \item \code{pi.value}: calculated pi.value
+#'     \item \code{null.effect}: set null effect by user
 #'     \item \code{parameter.median}: median posterior parameter value
 #'     \item \code{parameter.low}: lower boundary of CrI of parameter value
 #'     \item \code{paramter.high}: upper boundary of CrI of parameter value
-#'     \item \code{CrI.width}: the absolute distance parameter.low and parameter.high
+#'     \item \code{CrI.width}: the absolute distance between parameter.low and parameter.high
+#'     \item \code{CrI.level}: CrI_level set by user
 #'     \item \code{label}: biological label (e.g., `cell.line`)
-#'     \item Other columns from `annotation_df` (e.g., `group`, `condition`)
-#'   }
-#'   \item \code{meta}: user settings
-#' \itemize{
-#'   \item \code{CrI.low}: lower CrI boundary set by user
-#'   \item \code{CrI.high}: upper CrI boundary set by user
-#'   \item \code{zero.effect}: zero.effect for pi set by user
+#'     \item Other columns from `annotation` (e.g., `group`, `condition`)
 #'   }
 #' }
 #'
@@ -49,7 +44,7 @@
 #' @importFrom dplyr left_join
 #' @importFrom purrr list_rbind
 #' @importFrom stats median
-#' @importFrom stats quantile
+#' @importFrom HDInterval hdi
 #'
 #'
 #' @export
@@ -61,47 +56,43 @@
 #'   doubling.2 = rnorm(1000)
 #' )
 #'
-#' annotation_df <- data.frame(
+#' annotation <- data.frame(
 #'   parameter = c("doubling.1", "doubling.2"),
 #'   label = c("cell.line.A", "cell.line.B"),
 #'   group = c("group1", "group1")
 #' )
 #'
-#' result <- prepare_volcano_df(
+#' result <- prepare_volcano_input(
 #'   posterior = posterior,
-#'   annotation_df = annotation_df,
+#'   annotation = annotation,
 #' )
 #'
 #' head(result$result)
 #'
-prepare_volcano_df <- function(
+prepare_volcano_input <- function(
   posterior,
-  annotation_df,
-  zero.effect = 0,
-  CrI.low = 0.025,
-  CrI.high = 0.975
+  annotation,
+  null.effect = 0,
+  CrI_level = 0.95
 ) {
   # Input validation
   if (!is.data.frame(posterior)) {
     stop("Argument 'posterior' must be a data frame.")
   }
-  if (!is.numeric(zero.effect)) {
-    stop("zero.effect has to be numeric")
+  if (!is.numeric(null.effect)) {
+    stop("null.effect must be numeric")
   }
-  if (any(!is.numeric(c(CrI.low, CrI.high)))) {
-    stop("CrI.low and CrI.high must be numeric.")
+  if (!is.numeric(c(CrI_level))|!(CrI_level>=0&CrI_level<=1)) {
+    stop("CrI_level must be numeric and in between 0 and 1")
   }
-  if (CrI.low < 0 || CrI.high > 1 || CrI.low >= CrI.high) {
-    stop("CrI.low and CrI.high must be between 0 and 1, and CrI.low < CrI.high.")
+  if (!is.data.frame(annotation)) {
+    stop("Argument 'annotation' must be a data frame.")
   }
-  if (!is.data.frame(annotation_df)) {
-    stop("Argument 'annotation_df' must be a data frame.")
+  if (!"parameter" %in% names(annotation)) {
+    stop("annotation must contain a column 'paramter'")
   }
-  if (!"parameter" %in% names(annotation_df)) {
-    stop("annotation_df has to contain a column 'paramter'")
-  }
-  if (!"label" %in% names(annotation_df)) {
-    stop("annotation_df has to contain a column 'label'")
+  if (!"label" %in% names(annotation)) {
+    stop("annotation must contain a column 'label'")
   }
 
   # Binding of global variables
@@ -110,7 +101,7 @@ prepare_volcano_df <- function(
 
 
   # Compute summaries per parameter using lapply
-  summaries <- lapply(annotation_df$parameter, function(param) {
+  summaries <- lapply(annotation$parameter, function(param) {
     if (!param %in% names(posterior)) {
       return(NULL)
     }
@@ -119,42 +110,41 @@ prepare_volcano_df <- function(
     # Compute stats
     pi_value <- .pi_value(
       value = values,
-      zero.effect = zero.effect
+      null.effect = null.effect
     )
     median_val <- median(values)
-    crI_low <- stats::quantile(values, probs = CrI.low, na.rm = TRUE)
-    crI_high <- stats::quantile(values, probs = CrI.high, na.rm = TRUE)
-    CrI_width <- .CrI.width(CrI.low = crI_low, CrI.high = crI_high)
+    crI_low <- as.numeric(HDInterval::hdi(values,credMass = CrI_level)["lower"])
+    crI_high <- as.numeric(HDInterval::hdi(values,credMass = CrI_level)["upper"])
 
     # Return as data frame
 
     return(as.data.frame(cbind(
       parameter = param,
       pi.value = pi_value,
+      null.effect = null.effect,
       parameter.median = median_val,
       parameter.low = crI_low,
       parameter.high = crI_high,
-      CrI.width = CrI_width
+      CrI.width = .CrI.width(CrI.low = crI_low, CrI.high = crI_high),
+      CrI.level = CrI_level
     )))
   })
 
   summaries <- purrr::list_rbind(summaries)
   rownames(summaries) <- NULL
 
-  # Join with annotation_df
+  # Join with annotation
   result <- summaries %>%
-    dplyr::left_join(annotation_df, by = "parameter")
+    dplyr::left_join(annotation, by = "parameter")
 
   # clean up
   result$pi.value <- as.numeric(result$pi.value)
+  result$null.effect <- as.numeric(result$null.effect)
   result$parameter.median <- as.numeric(result$parameter.median)
   result$parameter.low <- as.numeric(result$parameter.low)
   result$parameter.high <- as.numeric(result$parameter.high)
   result$CrI.width <- as.numeric(result$CrI.width)
+  result$CrI.level <- as.numeric(result$CrI.level)
 
-  return(list(result = result, meta = list(
-    CrI.low = as.numeric(CrI.low),
-    CrI.high = as.numeric(CrI.high),
-    zero.effect = as.numeric(zero.effect)
-  )))
+  return(result)
 }
