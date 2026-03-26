@@ -38,7 +38,7 @@ To create a Bayesian volcano plot, BayesVolcano needs two main inputs:
 1. **Posterior samples**: A data frame where each column represents a biological effect (e.g., gene expression change) and each row shows posterior values.
 2. **Annotation metadata**: A data frame mapping parameter names to biological entities.
 
-If you used [**rstan**](10.32614/CRAN.package.rstan) or [**brms**](10.32614/CRAN.package.brms) to fit your model, our `extract_fit()` function automatically converts your results into the right format. Just install the corresponding package (rstan or brms) first, then run `extract_fit(your_model,parameter_name)` to prepare your data.
+If you used [**rstan**](https://doi.org/10.32614/CRAN.package.rstan) or [**brms**](https://doi.org/10.32614/CRAN.package.brms) to fit your model, our `extract_fit()` function automatically converts your results into the right format. Just install the corresponding package (rstan or brms) first, then run `extract_fit(your_model,parameter_name)` to prepare your data.
 
 ## Posterior Samples
 
