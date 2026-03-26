@@ -82,7 +82,7 @@ prepare_volcano_input <- function(
   if (!is.numeric(null.effect)) {
     stop("null.effect must be numeric")
   }
-  if (!is.numeric(c(CrI_level))|!(CrI_level>=0&CrI_level<=1)) {
+  if (!is.numeric(c(CrI_level)) | !(CrI_level >= 0 & CrI_level <= 1)) {
     stop("CrI_level must be numeric and in between 0 and 1")
   }
   if (!is.data.frame(annotation)) {
@@ -113,8 +113,8 @@ prepare_volcano_input <- function(
       null.effect = null.effect
     )
     median_val <- median(values)
-    crI_low <- as.numeric(HDInterval::hdi(values,credMass = CrI_level)["lower"])
-    crI_high <- as.numeric(HDInterval::hdi(values,credMass = CrI_level)["upper"])
+    crI_low <- as.numeric(HDInterval::hdi(values, credMass = CrI_level)["lower"])
+    crI_high <- as.numeric(HDInterval::hdi(values, credMass = CrI_level)["upper"])
 
     # Return as data frame
 

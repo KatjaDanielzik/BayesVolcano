@@ -59,30 +59,29 @@ plot_volcano <- function(result,
   subtitle <- paste0("vertical grey line: zero effect of parameter = ", t)
 
   p <- ggplot(result, (aes(x = parameter.median, y = pi.value))) +
+    geom_vline(aes(xintercept = t), col = "grey") +
     geom_point() +
     theme_bw() +
     # mark user set null.effect
-    geom_vline(aes(xintercept = t),col="grey") +
-    xlab(xlab) +
     ylab(expression(pi)) +
     ggtitle(title, subtitle)
-  
+
   # add errorbar ####
   if (CrI == TRUE) {
     subtitle <- paste0(
       subtitle, "\n",
-      "errorbar: ",unique(result$CrI.level)*100," % CrI"
+      "errorbar: ", unique(result$CrI.level) * 100, " % CrI"
     )
-    
+
     p <- ggplot(result, (aes(x = parameter.median, y = pi.value))) +
-      geom_errorbar(aes(xmin = parameter.low, xmax = parameter.high), 
-                    col = "grey",
-                    width = 0) +
+      geom_vline(aes(xintercept = t), col = "grey") +
+      geom_errorbar(aes(xmin = parameter.low, xmax = parameter.high),
+        col = "grey",
+        width = 0
+      ) +
       geom_point() +
       theme_bw() +
       # mark user set null.effect
-      geom_vline(aes(xintercept = t),col="grey") +
-      xlab(xlab) +
       ylab(expression(pi)) +
       ggtitle(title, subtitle)
   }
@@ -92,7 +91,7 @@ plot_volcano <- function(result,
       subtitle, "\n",
       "point size = |CrI|"
     )
-    p <- p + 
+    p <- p +
       geom_point(aes(size = -CrI.width)) +
       ggtitle(title, subtitle)
   }

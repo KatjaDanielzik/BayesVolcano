@@ -21,5 +21,5 @@
 #' @returns absolute distance lower and upper bound of CrI
 #' @keywords internal
 .CrI.width <- function(CrI.low, CrI.high) {
-  d.CrI <- abs(CrI.high - CrI.low) 
+  d.CrI <- abs(CrI.high - CrI.low)
 }

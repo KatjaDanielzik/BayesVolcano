@@ -21,12 +21,12 @@ knitr::opts_chunk$set(
 
 Bayesian models are essential for studying complex biological systems of interest (SOIs), such as irradiation effects on metabolite concentrations or vaccine impacts on immune gene repertoires. In these models layered parameters describe key biological features of the SOIs. After model fitting, each parameter is characterized by a posterior distribution: a probability distribution representing all plausible effect values given the observed data. With thousands of such posteriors in high-dimensional analyses, identifying large, reliable effects becomes challenging.
 
-Traditional **volcano plots** address this for frequentist analyses by plotting fold-changes against –log(p-values). We introduce **Bayesian volcano plots** that instead visualize the posterior mean effect size of parameter $i$ ($\theta_i$) against the probability, $\pi_i$, where the $\pi_i$ quantifies the posterior probability that $\theta_i$ is not equal the null effect. This directly highlights both magnitude and biological relevance. While Sousa et al. (2020) conceptualized Bayesian volcano plots, our R package provides the first practical implementation for automated $\pi_i$ calculation and visualization of complex biological effects.
+Traditional **volcano plots** address this for frequentist analyses by plotting fold-changes against –log(p-values). We introduce **Bayesian volcano plots** that instead visualize the posterior mean effect size of parameter $i$ ($\theta_i$) against the probability, $\pi_i$, where the $\pi_i$ quantifies the posterior probability that $\theta_i$ is not equal the null effect. This directly highlights both magnitude and biological relevance. While [Sousa et al. (2020)](https://doi.org/10.1016/j.aca.2019.11.006) conceptualized Bayesian volcano plots, our R package provides the first practical implementation for automated $\pi_i$ calculation and visualization of complex biological effects.
 
 # Installation
 
 ```{r setup}
-if(!require("BayesVolcano", quietly = TRUE)) {
+if (!require("BayesVolcano", quietly = TRUE)) {
   install.packages("BayesVolcano")
 }
 ```
@@ -38,7 +38,7 @@ To create a Bayesian volcano plot, BayesVolcano needs two main inputs:
 1. **Posterior samples**: A data frame where each column represents a biological effect (e.g., gene expression change) and each row shows posterior values.
 2. **Annotation metadata**: A data frame mapping parameter names to biological entities.
 
-If you used **rstan** or **brms** to fit your model, our `extract_fit()` function automatically converts your results into the right format. Just install the corresponding package (rstan or brms) first, then run `extract_fit(your_model)` to prepare your data.
+If you used [**rstan**](10.32614/CRAN.package.rstan) or [**brms**](10.32614/CRAN.package.brms) to fit your model, our `extract_fit()` function automatically converts your results into the right format. Just install the corresponding package (rstan or brms) first, then run `extract_fit(your_model,parameter_name)` to prepare your data.
 
 ## Posterior Samples
 
@@ -60,7 +60,7 @@ head(annotation_df)
 
 ## **Step 1:** Prepare input data
 
-The `prepare_volcano_df()` function takes as input the posterior and the annotation data frame. Run this now:
+The `prepare_volcano_input()` function takes as input the posterior and the annotation data frame. Run this now:
 
 ```{r}
 d <- prepare_volcano_input(posterior = posterior, annotation = annotation_df)
@@ -85,15 +85,17 @@ str(d)
 You can specify the null effect and credible interval level:
 
 ```{r}
-d <- prepare_volcano_input(posterior = posterior,
-                           annotation = annotation_df,
-                           null.effect = 0.5,
-                           CrI_level = 0.7)
+d <- prepare_volcano_input(
+  posterior = posterior,
+  annotation = annotation_df,
+  null.effect = 0.5,
+  CrI_level = 0.7
+)
 ```
 
 ## **Step 2:** Understanding $\pi$
 
-The function `prepare_volcano_input` uses the posterior of each parameter from the annotations (e.g., effect size $\theta_i$ of parameter $i$) to calculate $\pi_i$:
+The function `prepare_volcano_input()` uses the posterior of each parameter from the annotations (e.g., effect size $\theta_i$ of parameter $i$) to calculate $\pi_i$:
 
 $\pi_i = 2 \cdot \max\left(\int_{\theta_i = -\infty}^{\bar{\theta}} p(\theta_i)\mathrm{d}\theta_i, \int_{\theta_i = \bar{\theta}}^{\infty} p(\theta_i)\mathrm{d}\theta_i\right) - 1$
 
@@ -113,7 +115,8 @@ plot_volcano(d)
 ```
 
 This plot shows:
-- X-axis: Posterior median effect size
+
+- X-axis: Posterior median effect size $\theta$ of parameter $i$
 - Y-axis: $\pi$-value
 - Vertical line: Null effect reference
 
@@ -124,9 +127,13 @@ Where each point is a parameter with median effect size (x-axis) and $\pi$ (y-ax
 To visualize effect size uncertainty, add credible intervals as error bars:
 
 ```{r,fig.width=7,fig.height=6}
-plot_volcano(d, CrI = TRUE)
+plot_volcano(d,
+  CrI = TRUE
+)
 ```
+
 This adds:
+
 - Grey error bars showing 95% credible intervals
 - Subtitle describing the interval level
 
@@ -134,7 +141,10 @@ This adds:
 You can also represent credible interval width through point size:
 
 ```{r,fig.width=7,fig.height=6}
-plot_volcano(d, CrI = TRUE, CrI_width = TRUE)
+plot_volcano(d,
+  CrI = TRUE,
+  CrI_width = TRUE
+)
 ```
 
 - Wide intervals = Small points
@@ -144,14 +154,22 @@ plot_volcano(d, CrI = TRUE, CrI_width = TRUE)
 Use metadata columns for color-coding:
 
 ```{r,fig.width=7,fig.height=6}
-plot_volcano(d, color = "group")
-plot_volcano(d, color = "value")
+plot_volcano(d,
+  color = "group"
+)
+plot_volcano(d,
+  color = "value"
+)
 ```
 
 Combine with other visualizations:
 
 ```{r,fig.width=7,fig.height=6}
-plot_volcano(d, CrI = TRUE, CrI_width = TRUE, color = "group")
+plot_volcano(d,
+  CrI = TRUE,
+  CrI_width = TRUE,
+  color = "group"
+)
 ```
 
 ## **Step 4:** Customizing Your Plot
@@ -159,10 +177,15 @@ plot_volcano(d, CrI = TRUE, CrI_width = TRUE, color = "group")
 ### Adding Titles and Labels
 
 ```{r,fig.width=7,fig.height=6}
+# Customization requires the ggplot2 package
+if (!require("BayesVolcano", quietly = TRUE)) {
+  install.packages("BayesVolcano")
+}
 library(ggplot2)
+
 p <- plot_volcano(d)
 
-p+xlab("my informative parameter")+
+p + xlab("my informative parameter") +
   ggtitle("My amazing plot")
 ```
 
@@ -172,7 +195,7 @@ Use `geom_text()` for basic labeling or `ggrepel` to avoid overplotting:
 
 ```{r,fig.width=7,fig.height=6}
 p <- plot_volcano(d)
-p+geom_text(aes(label=label))
+p + geom_text(aes(label = label))
 
 # ggrepel version
 # library(ggrepel)
@@ -185,14 +208,15 @@ Show labels only for reliable effects:
 ```{r,fig.width=7,fig.height=6}
 p <- plot_volcano(d)
 
-p + geom_text(aes(label = ifelse(abs(parameter.median)>1.6& # only show for parameter value > 0.5
-                             pi>0.95, # only show for pi > 0.7
-                             label, # which variable contains the label
-                              ""))) 
-
+p + geom_text(aes(label = ifelse(abs(parameter.median) > 1.6 & # only show for parameter value > 0.5
+  pi > 0.95, # only show for pi > 0.95
+label, # which variable contains the label
+""
+))) # do not display label if outside of set ranges
 ```
 
 This highlights:
+
 - Parameters with large effect sizes (|median| > 1.6)
 - Parameters with strong evidence ($\pi$ > 0.95)
 
@@ -201,3 +225,8 @@ This highlights:
 Julie de Sousa, Ondřej Vencálek, Karel Hron, Jan Václavík, David Friedecký, Tomáš Adam, Bayesian multiple hypotheses testing in compositional analysis of untargeted metabolomic data, Analytica Chimica Acta, Volume 1097, 2020, Pages 49-61, ISSN 0003-2670, <https://doi.org/10.1016/j.aca.2019.11.006>
 
 Corresponding GitHub Repository: <https://github.com/sousaju/BayesVolcano>
+
+```{r}
+sessionInfo()
+```
+

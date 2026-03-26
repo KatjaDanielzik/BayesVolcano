@@ -48,4 +48,3 @@ test_that("CrI = TRUE adds errorbar and updates subtitle", {
   subtitle <- p$labels$subtitle
   expect_true(grepl("errorbar: 95 % CrI", subtitle))
 })
-

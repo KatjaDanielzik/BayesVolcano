@@ -150,6 +150,6 @@ test_that("Left join with annotation preserves additional columns", {
 
   expect_equal(names(result), c(
     "parameter", "pi.value", "null.effect", "parameter.median", "parameter.low", "parameter.high",
-    "CrI.width","CrI.level", "label", "group", "condition"
+    "CrI.width", "CrI.level", "label", "group", "condition"
   ))
 })

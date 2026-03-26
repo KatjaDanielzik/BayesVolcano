@@ -5,41 +5,45 @@
 <!-- badges: end -->
 
 # Why a Bayesian Volcano Plot Package?
-Bayesian models are used to estimate effect sizes (e.g., gene expression changes,
-protein abundance differences, drug response effects) while accounting for uncertainty, 
-small sample sizes, and complex experimental designs.
-However, Bayesian posteriors of models with many parameters are often difficult
-to interpret at a glance.
+Bayesian models are essential for studying complex biological systems of interest
+(SOIs), such as irradiation effects on metabolite concentrations or vaccine impacts
+on immune gene repertoires. In these models layered parameters describe key biological 
+features of the SOIs. After model fitting, each parameter is characterized by a 
+posterior distribution: a probability distribution representing all plausible 
+effect values given the observed data. With thousands of such posteriors in 
+high-dimensional analyses, identifying large, reliable effects becomes challenging.
 
-One way to quickly identify important biological changes based on frequentist analysis 
-are volcano plots (using fold-changes and p-values).
+Traditional **volcano plots** address this for frequentist analyses by plotting 
+fold-changes against –log(p-values). We introduce **Bayesian volcano plots** 
+that instead visualize the posterior mean effect size of parameter $i$ ($\theta_i$) 
+against the probability, $\pi_i$, where the $\pi_i$ quantifies the posterior 
+probability that $\theta_i$ is not equal the null effect. This directly highlights 
+both magnitude and biological relevance. While [Sousa et al. (2020)](https://doi.org/10.1016/j.aca.2019.11.006)
+conceptualized Bayesian volcano plots, our R package provides the 
+first practical implementation for automated $\pi_i$ calculation and 
+visualization of complex biological effects.
 
-Bayesian volcano plots bring together the explicit treatment of uncertainty in
-Bayesian models and the familiar visualization of volcano plots by:
+With  $\theta_i$ being the effect size of parameter $i$ we calculate calculate
+$\pi_i$ as:
 
-   1) Calculation and using ![equation](https://latex.codecogs.com/svg.image?%5Cpi)-values
-      on the y-axis as a summary of posterior parameter values lying beyond a threshold.
-      With *i* being one entity that was modeled, *param* the estimated parameter and *t*
-      the central parameter value corresponding to no effect (default t=0).
-      
-      ![equation](https://latex.codecogs.com/svg.image?%5Cpi_%7Bi%7D=2*max%5Cleft(%5Cint_%7Bparam_%7Bi%7D=-%5Cinfty%7D%5E%7Bt%7Dp(param_%7Bi%7D)%5C,dparam_%7Bi%7D,%5Cint_%7Bparam_%7Bi%7D=t%7D%5E%7B%5Cinfty%7Dp(param_%7Bi%7D)%5C,dparam_%7Bi%7D%5Cright)-1)
+$\pi_i = 2 \cdot \max\left(\int_{\theta_i = -\infty}^{\bar{\theta}} p(\theta_i)\mathrm{d}\theta_i, \int_{\theta_i = \bar{\theta}}^{\infty} p(\theta_i)\mathrm{d}\theta_i\right) - 1$
 
+Where $\bar{\theta}$ is the null effect. This measures the probability that the 
+effect is in the "direction" away from the null. 
 
-   2) Preserving the familiar, intuitive volcano structure.
+- $\pi \approx 1$: Strong evidence for an effect
+- $\pi \approx 0$: Negligible evidence for an effect
 
-      The figure below shows the distribution of the posterior samples on the right
-      and their translation into a Bayesian volcano plot on the right.
+**Important Note**: A $\pi$-value near 0 doesn't prove the absence of an effect,
+but indicates the posterior is widely distributed around the null.
 
-      ![](man/figures/README-explain_volcano.png)
+The figure below shows on the **left the posterior distribution** and 
+on the **right the resulting Bayesian volcano plot** where 
 
+- Wide credible intervals = Small points
+- Narrow credible intervals = Large points
 
-
-   3) Optional displaying credible intervals (CrIs) to visualize uncertainty.
-   
-We are not the first to think about the concept of Bayesian volcano plots: [Sousa et al. 2020](https://doi.org/10.1016/j.aca.2019.11.006) introduced them as a single
-use case (pi-value= 1 - b-value) but to our knowledge we are the first to provide an R-package
-for easy calculation of pi-values and visualization. 
-
+![](man/figures/README-explain_volcano.png)
 
 ## Installation
 
@@ -65,19 +69,18 @@ library(BayesVolcano)
 data("posterior")
 data("annotation_df")
 
-result <- prepare_volcano_df(
+result <- prepare_volcano_input(
    posterior = posterior,
-   annotation_df = annotation_df,
+   annotation = annotation_df,
    null.effect = 0, # central parameter value corresponding to no effect
-   CrI.low = 0.025, # lower bound for credible intervals
-   CrI.high = 0.975 # upper bound for credible intervals
+   CrI_level = 0.95 # 95% CrI interval
  )
 plot_volcano(result,
-             CrI = FALSE, # optional display of credible intervals
-             color="group", # optional color coding)
+             CrI_width = FALSE, # optional display of credible intervals as point size
+             color="group" # optional color coding)
 ```
 
-plot_volcano returns a ggplot object that can further be customized by the user.
+The function plot_volcano() returns a ggplot object that can further be customized by the user.
 
 ![](man/figures/README-example_volcano.png)
 
