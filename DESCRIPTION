@@ -5,7 +5,7 @@ Authors@R:
   c(person(given="Katja",family= "Danielzik", email="katja.danielzik@uni-due.de", 
            role = c("aut", "cre","cph"),
            comment=c(ORCID="0009-0007-5021-6212")),
-    person(given="Simo",family="Kitanovski",role="aut","ctb",
+    person(given="Simo",family="Kitanovski",role=c("aut","ctb"),
            comment=c(ORCID="0000-0003-2909-5376")),
     person(given="Daniel",family="Hoffmann",role="aut",
            comment=c(ORCID="0000-0003-2973-7869")))
