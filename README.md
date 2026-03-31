@@ -53,7 +53,7 @@ You can install the development version of BayesVolcano from GitHub with:
 remotes::install_github("KatjaDanielzik/BayesVolcano")
 ```
 
-and after acceptance to [CRAN](https://cran.r-project.org/) with:
+and or from [CRAN](https://cran.r-project.org/web/packages/BayesVolcano/index.html) with:
 
 ``` r
 install.packages("BayesVolcano")
