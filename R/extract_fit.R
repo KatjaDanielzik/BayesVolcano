@@ -3,7 +3,7 @@
 #' Wrapper function to extract parameter draws from two common Stan interfaces.
 #' This function requires the respective stan interface (rstan, brms)
 #' package to be installed.
-#'
+#' 
 #'
 #' @param fit A fitted Stan model object (\link[rstan]{stanfit},  \link[brms]{brmsfit}).
 #' @param parameter_name A character string of parameter name
