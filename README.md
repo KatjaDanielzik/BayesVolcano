@@ -53,13 +53,15 @@ You can install the development version of BayesVolcano from GitHub with:
 remotes::install_github("KatjaDanielzik/BayesVolcano")
 ```
 
-and or from [CRAN](https://cran.r-project.org/web/packages/BayesVolcano/index.html) with:
+and from [CRAN](https://cran.r-project.org/web/packages/BayesVolcano/index.html) with:
 
 ``` r
 install.packages("BayesVolcano")
 ```
 
 ## Basic workflow
+
+The complete **vignette** can be found [here](https://cran.r-project.org/web/packages/BayesVolcano/vignettes/BayesVolcano.html).
 
 Input: Posterior of parameters that should be visualized and an annotation
 data frame mapping parameter names to labels and optional additional columns.
