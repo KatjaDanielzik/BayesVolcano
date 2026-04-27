@@ -1,8 +1,10 @@
 
 # BayesVolcano
+[![License: GPL](https://img.shields.io/badge/license-GPL-blue.svg)](https://cran.r-project.org/web/licenses/GPL)
 
-<!-- badges: start -->
-<!-- badges: end -->
+<p align="center">
+  <img src="man/figures/README-logo.png"/>
+</p>
 
 # Why a Bayesian Volcano Plot Package?
 Bayesian models are essential for studying complex biological systems of interest
