@@ -2,7 +2,6 @@
 title: "BayesVolcano"
 package: BayesVolcano
 author: "Katja Danielzik (katja.danielzik@uni-due.de)"
-
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{BayesVolcano}

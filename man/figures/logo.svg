@@ -131,9 +131,9 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    showgrid="false"
-   inkscape:zoom="0.2173595"
-   inkscape:cx="816.61949"
-   inkscape:cy="1525.1232"
+   inkscape:zoom="0.25806862"
+   inkscape:cx="197.62186"
+   inkscape:cy="1435.6647"
    inkscape:window-width="1854"
    inkscape:window-height="1011"
    inkscape:window-x="0"
@@ -157,14 +157,14 @@
    points="1260.5,2833.8 2453.1,2145.2 2453.1,767.6 1260.5,78.9 67.6,767.6 67.6,2145.2 "
    id="polygon6210"
    transform="translate(-35.809954,19.594459)"
-   style="fill:#65e200;stroke:#36617b;stroke-opacity:1;fill-opacity:1" /><text
+   style="fill:#ffffff;stroke:#36617b;stroke-opacity:1;fill-opacity:1" /><text
    xml:space="preserve"
    id="text3122-1"
    style="font-size:192px;white-space:pre;shape-inside:url(#rect3124-9);display:inline;fill:#fb6f00;fill-opacity:1;stroke:#fb6f00;stroke-width:15;stroke-dasharray:none;stroke-opacity:1"
    transform="translate(537.46003,5.6824116)"><tspan
      x="657.30273"
      y="727.51439"
-     id="tspan4796">Volcano</tspan></text><path
+     id="tspan2173">Volcano</tspan></text><path
    style="fill:#ff0000;fill-opacity:1;stroke:#36617b;stroke-width:15.828;stroke-opacity:1;marker-end:url(#marker2628-5);stroke-dasharray:none"
    d="m 1436.3515,2016.3405 179.5294,-224.1662"
    id="path2433-2" /><g
@@ -804,7 +804,7 @@
    transform="translate(90.69242,-115.01287)"><tspan
      x="548.28906"
      y="865.2683"
-     id="tspan4798">
+     id="tspan2175">
 </tspan></text><text
    xml:space="preserve"
    style="font-size:85.3333px;fill:#d45500;stroke:#0a0a0a;stroke-width:0.9;stroke-dasharray:none"
@@ -913,5 +913,5 @@
    style="font-size:192px;white-space:pre;shape-inside:url(#rect3124);fill:#00fada;fill-opacity:1;stroke:#00fada;stroke-width:15;stroke-dasharray:none;stroke-opacity:1"><tspan
      x="657.30273"
      y="727.51439"
-     id="tspan4800">Bayes</tspan></text></g>
+     id="tspan2177">Bayes</tspan></text></g>
 </svg>
